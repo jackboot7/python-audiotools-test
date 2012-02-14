@@ -19,9 +19,10 @@ def encode(input_file, progress=print_progress, **kwargs):
 
     # Metadata for output files.
     meta = audiotools.MetaData()
-    meta.track_name =  'Swords'
-    meta.artist_name = 'Zola Jesus'
-
+    meta.track_name = kwargs['track_name']
+    meta.track_number = kwargs['track_number']
+    meta.album_name = kwargs['album_name']
+    meta.artist_name = kwargs['artist_name']
     
     # Convert input_file to output formats including metadata
     
@@ -58,4 +59,8 @@ def encode(input_file, progress=print_progress, **kwargs):
 
 
 
-encode('swords.wav')
+encode('swords.wav', 
+        track_number=1, 
+        track_name=u'Swords', 
+        album_name=u'Conatus',
+        artist_name=u'Zola Jesus' )
