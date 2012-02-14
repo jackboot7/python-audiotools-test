@@ -15,7 +15,6 @@ def print_progress (amount_processed, total_amount):
 def encode(input_file, progress=print_progress, **kwargs):
 
     input = audiotools.open(input_file)
-    filename = input_file.rsplit('.', 1)[0]
 
     # Metadata for output files.
     meta = audiotools.MetaData()
@@ -23,7 +22,8 @@ def encode(input_file, progress=print_progress, **kwargs):
     meta.track_number = kwargs['track_number']
     meta.album_name = kwargs['album_name']
     meta.artist_name = kwargs['artist_name']
-    
+
+    filename = u'%02d %s' % (meta.track_number, meta.track_name)
     # Convert input_file to output formats including metadata
     
 
@@ -32,7 +32,7 @@ def encode(input_file, progress=print_progress, **kwargs):
     #   insane" which is the same as lame's "-b 320" producing 320kbps
     #   mp3s. 
     #   
-    input.convert(filename+'.mp3', 
+    input.convert((u'%s.mp3' % filename), 
                     audiotools.MP3Audio,
                     compression=audiotools.MP3Audio.COMPRESSION_MODES[10],
                     progress=progress).set_metadata(meta)
@@ -42,7 +42,7 @@ def encode(input_file, progress=print_progress, **kwargs):
     #   The COMPRESSION_MODE[8] corresponds to the most amount of
     #   compression but at the slowest compression speed
     #
-    input.convert(filename+'.flac', 
+    input.convert((u'%s.flac' % filename), 
                     audiotools.FlacAudio,
                     compression=audiotools.FlacAudio.COMPRESSION_MODES[8],
                     progress=progress).set_metadata(meta)
@@ -52,7 +52,7 @@ def encode(input_file, progress=print_progress, **kwargs):
     #   the default value of the faac encoder,  averages at approx.
     #   120 kbps VBR for a normal stereo input file.
     #
-    input.convert(filename+'.m4a',
+    input.convert((u'%s.m4a' % filename),
                     audiotools.M4AAudio_faac,
                     compression=audiotools.M4AAudio_faac.COMPRESSION_MODES[3],
                     progress=progress).set_metadata(meta)
