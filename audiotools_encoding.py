@@ -12,16 +12,12 @@ def print_progress (amount_processed, total_amount):
     print "%d%%" % (amount_processed * 100 / total_amount)
 
 
-def encode(input_file, progress=print_progress, **kwargs):
+def encode(input_file, meta, progress=print_progress):
 
     input = audiotools.open(input_file)
 
     # Metadata for output files.
-    meta = audiotools.MetaData()
-    meta.track_name = kwargs['track_name']
-    meta.track_number = kwargs['track_number']
-    meta.album_name = kwargs['album_name']
-    meta.artist_name = kwargs['artist_name']
+    meta = audiotools.MetaData( **meta)
 
     filename = u'%02d %s' % (meta.track_number, meta.track_name)
     # Convert input_file to output formats including metadata
@@ -59,8 +55,9 @@ def encode(input_file, progress=print_progress, **kwargs):
 
 
 
-encode('swords.wav', 
-        track_number=1, 
-        track_name=u'Swords', 
-        album_name=u'Conatus',
-        artist_name=u'Zola Jesus' )
+meta = {    'track_number':1,
+            'track_name':u'Swords',
+            'album_name':u'Conatus',
+            'artist_name':u'Zola Jesus' }
+
+encode('swords.wav', meta )
